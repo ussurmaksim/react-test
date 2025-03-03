@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #939393;
+}
+
+.todo-block {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    padding: 25px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.todo-block h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.todo-block .status {
+    text-align: right;
+    font-weight: small;
+}
