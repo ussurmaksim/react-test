@@ -1,52 +1,81 @@
-import React from "react"
+import React from "react";
+import axios from "axios";
 
 class AddTodo extends React.Component {
-    todoAdd = {};
+    constructor(props) {
+        super(props);
 
-    state = {
-        todo:[
-            {
-                text: "",
-                description: "",
-            }
-        ]
+        this.state = {
+            taskName: "",
+            taskText: "",
+        };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    handleSubmit = async () => {
+        // Проверяем, что название задачи и текст задачи не пустые
+        if (!this.state.taskName || !this.state.taskText) {
+            alert("Пожалуйста, заполните все поля!");
+            return;
+        }
+
+        const todoAdd = {
+            taskName: this.state.taskName,
+            taskText: this.state.taskText,
+        };
+        const baseUrl = this.props.url;
+
+        try {
+            // Отправляем POST-запрос на ваш API
+            const response = await axios.post(baseUrl, todoAdd); // Замените '/api/todos' на ваш URL API
+
+            // Обрабатываем успешный ответ
+            console.log("Задача успешно добавлена:", response.data);
+
+            // Вызываем функцию addTodo из props для обновления списка задач в родительском компоненте
+            this.props.addTodo(response.data); // Передаём данные, возвращенные сервером (включая ID, если есть)
+
+            // Очищаем форму
+            this.setState({ taskName: "", taskText: "" });
+            this.myForm.reset(); // Очищаем форму
+        } catch (error) {
+            // Обрабатываем ошибки
+            console.error("Ошибка при добавлении задачи:", error);
+            alert("Произошла ошибка при добавлении задачи. Пожалуйста, попробуйте позже.");
+        }
+    };
+
     render() {
         return (
             <div className="AddTodo">
-                <input type="text" placeholder={"Название задачи"} onChange={(e) => this.setState({text:e.target.value})}/>
-                <input type="text" placeholder={"Описание задачи"} onChange={(e) => this.setState({description: e.target.value})}/>
-                <button type={"button"}>Добавить</button>
+                <form
+                    ref={(el) => (this.myForm = el)}
+                    onSubmit={(e) => {
+                        e.preventDefault(); // Предотвращаем перезагрузку страницы при отправке формы
+                        this.handleSubmit();
+                        this.props.getTasks();
+                    }}
+                >
+                    <input
+                        type="text"
+                        placeholder="Название задачи"
+                        value={this.state.taskName} // Используем controlled components
+                        onChange={(e) => this.setState({ taskName: e.target.value })}
+                        required // Добавляем обязательность заполнения поля
+                    />
+                    <input
+                        type="text"
+                        placeholder="Описание задачи"
+                        value={this.state.taskText} // Используем controlled components
+                        onChange={(e) => this.setState({ taskText: e.target.value })}
+                        required // Добавляем обязательность заполнения поля
+                    />
+                    <button type="submit">Добавить</button>
+                </form>
             </div>
-        )
+        );
     }
 }
 
-export default AddTodo
-
-//
-// return (
-//     <form ref={(el) => this.myForm = el}>
-//         <input type="text" placeholder={"Имя"} onChange={(e) => this.setState({first_name: e.target.value})}/>
-//         <input type="text" placeholder={"Фамилия"} onChange={(e) => this.setState({last_name: e.target.value})}/>
-//         <textarea placeholder={"Биография"}  onChange={(e) => this.setState({bio: e.target.value})}/>
-//         <input type="text" placeholder={"Возраст"}  onChange={(e) => this.setState({age: e.target.value})}/>
-//         <label htmlFor="isMan">Вы мужчина?</label>
-//         <input type="checkbox" id={"isMan"} onChange={(e) => this.setState({isMan: e.target.checked})}/>
-//         <button type={"button"} onClick={() => {
-//
-//             this.myForm.reset();
-//             this.userAdd = {
-//                 first_name: this.state.first_name,
-//                 last_name: this.state.last_name,
-//                 bio: this.state.bio,
-//                 age: this.state.age,
-//                 isMan: this.state.isMan
-//             }
-//             if (this.props.user) {
-//                 this.userAdd.id = this.props.user.id;
-//             }
-//             this.props.onAdd(this.userAdd);
-//
-//         }}>Добавить</button>
-//     </form>
+export default AddTodo;

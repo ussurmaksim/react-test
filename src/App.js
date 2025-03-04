@@ -2,8 +2,8 @@ import React from "react";
 import Todoes from "./components/todoes";
 import './css/main.css'
 import axios from 'axios'
-
-const baseUrl = "https://3ab1d506db455dc20bcccd9cb3fa8bc7.serveo.net/tasks"
+let url = "/tasks"
+const baseUrl = `https://d3077d79868ad10e7f3fab9784688186.serveo.net${url}`;
 
 class App extends React.Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <Todoes todos={this.state.todos} addTodo={this.addTodo} />
+                <Todoes todos={this.state.todos} addTodo={this.addTodo} url={baseUrl} getTasks = {this.componentDidMount}/>
             </div>
         )
     }

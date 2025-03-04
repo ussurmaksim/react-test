@@ -8,7 +8,7 @@ class Todos extends React.Component {
            return (
                <div className={"todos"}>
                    <div className={"todo-header"}>
-                       <AddTodo addTodo = {this.props.addTodo}/>
+                       <AddTodo addTodo = {this.props.addTodo} url={this.props.url} getTasks ={this.props.getTasks} />
                    </div>
                    {
                        (Array.isArray(this.props.todos) && this.props.todos.length > 0) ? (
