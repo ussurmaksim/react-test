@@ -1,6 +1,9 @@
 import React from "react";
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import {Link } from 'react-router';
+import Test from "../test-page";
+
 
 class Todo extends React.Component {
     render() {
@@ -20,12 +23,20 @@ class Todo extends React.Component {
         }
 
         return (
-            <div className={"todo-block"}>
-                <h3 className={"todoText"}>{this.props.todo.taskName}</h3>
-                <p className={"description"}>{this.props.todo.taskText}</p>
+            <div className={"todo-block"} onClick={() => {this.props.getId(todo)}}>
+                <div>
+                    <h1>
+                        <Link to="/Test" element={<Test />}/>
+                    </h1>
+                </div>
+
+                <h3 className={"todoText"}>{todo.taskName}</h3>
+                <p className={"description"}>{todo.taskText}</p>
                 <p className={"status"}>{formattedTime}</p>
             </div>
         )
+
+
     }
 }
 

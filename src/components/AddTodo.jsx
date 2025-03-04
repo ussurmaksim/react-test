@@ -34,7 +34,9 @@ class AddTodo extends React.Component {
             console.log("Задача успешно добавлена:", response.data);
 
             // Вызываем функцию addTodo из props для обновления списка задач в родительском компоненте
-            this.props.addTodo(response.data); // Передаём данные, возвращенные сервером (включая ID, если есть)
+            this.props.addNewTask(response.data); // Передаём данные, возвращенные сервером (включая ID, если есть)
+
+
 
             // Очищаем форму
             this.setState({ taskName: "", taskText: "" });
@@ -50,28 +52,34 @@ class AddTodo extends React.Component {
         return (
             <div className="AddTodo">
                 <form
+
                     ref={(el) => (this.myForm = el)}
                     onSubmit={(e) => {
                         e.preventDefault(); // Предотвращаем перезагрузку страницы при отправке формы
                         this.handleSubmit();
-                        this.props.getTasks();
                     }}
                 >
-                    <input
-                        type="text"
-                        placeholder="Название задачи"
-                        value={this.state.taskName} // Используем controlled components
-                        onChange={(e) => this.setState({ taskName: e.target.value })}
-                        required // Добавляем обязательность заполнения поля
-                    />
-                    <input
-                        type="text"
-                        placeholder="Описание задачи"
-                        value={this.state.taskText} // Используем controlled components
-                        onChange={(e) => this.setState({ taskText: e.target.value })}
-                        required // Добавляем обязательность заполнения поля
-                    />
-                    <button type="submit">Добавить</button>
+                    <div className="formTasks">
+                        <input
+                            className="inputTask"
+                            type="text"
+                            placeholder="Название задачи"
+                            value={this.state.taskName} // Используем controlled components
+                            onChange={(e) => this.setState({ taskName: e.target.value })}
+                            required // Добавляем обязательность заполнения поля
+                        />
+                        <input
+                            className="inputTask"
+                            type="text"
+                            placeholder="Описание задачи"
+                            value={this.state.taskText} // Используем controlled components
+                            onChange={(e) => this.setState({ taskText: e.target.value })}
+                            required // Добавляем обязательность заполнения поля
+                        />
+                    </div>
+                    <div className="submitBtn__wrapper">
+                        <button type="submit">Добавить</button>
+                    </div>
                 </form>
             </div>
         );

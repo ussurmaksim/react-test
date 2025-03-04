@@ -2,22 +2,32 @@ import React from "react";
 import Todoes from "./components/todoes";
 import './css/main.css'
 import axios from 'axios'
-let url = "/tasks"
-const baseUrl = `https://d3077d79868ad10e7f3fab9784688186.serveo.net${url}`;
+
+
+let url = "/tasks/100"
+const baseUrl = `https://127a781744a11b9ab952a8be35cc9c9e.serveo.net${url}`;
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            todos: []
+            todos: [
+                // {
+                //     id: 1,
+                //     taskName: "Test",
+                //     taskText: "Test description",
+                // }
+            ]
         }
     }
 
     componentDidMount() {
         axios.get(baseUrl, {
             headers: {
-                'bypass-ngrok-warning': 'any-value', // Добавьте этот заголовок
+                "Content-Type": "application/json",
+                "bypass-ngrok-warning": "any-value", // Добавьте этот заголовок, если нужно обойти страницу ngrok
+                "Authorization": "Bearer any-token"
             },
         })
             .then(response => {
@@ -25,21 +35,23 @@ class App extends React.Component {
             })
             .catch(error => {
                 console.error("Ошибка при получении данных:", error);
-                // Add error handling here, e.g., setting an error state
             });
     }
 
     render() {
         return (
             <div className="App">
-                <Todoes todos={this.state.todos} addTodo={this.addTodo} url={baseUrl} getTasks = {this.componentDidMount}/>
+                <Todoes todos={this.state.todos} addNewTask={this.addNewTask}
+                        url={baseUrl}
+                />
             </div>
         )
     }
 
-    addTodo(todo) {
-        console.log(todo);
+    addNewTask = (task) => {
+        this.setState({todos: [...this.state.todos,  task]});
     }
+
 }
 
 export default App;
