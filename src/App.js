@@ -3,8 +3,7 @@ import Todoes from "./components/todoes";
 import './css/main.css'
 import axios from 'axios'
 
-
-let url = "https://3410082cf1bf62fda8c1d33ce2ff5bf6.serveo.net"
+let url = "https://a1911398124e13b970cae3d7b868144b.serveo.net"
 const baseUrl = `${url}/tasks`;
 
 class App extends React.Component {
@@ -12,7 +11,9 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            todos: []
+            todos: [
+
+            ]
         }
     }
 
@@ -35,21 +36,26 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <Todoes todos={this.state.todos} addNewTask={this.addNewTask}
-                        url={url}
+                <Todoes
+                    todos={this.state.todos}
+                    url={url}
+                    addNewTask={this.addNewTask}
+                    deleteTask={this.deleteTask}
+                    formatDate={this.formatDate}
                 />
             </div>
         )
     }
 
     addNewTask = (task) => {
-        this.setState({todos: [...this.state.todos,  task]});
+        this.setState({todos: [task, ...this.state.todos]});
     }
 
     deleteTask = (id) => {
-        axios.delete(`${baseUrl}/${id}`).then(response => {
-            console.log(response);
+        this.setState({
+            todos: this.state.todos.filter((el) => el.id !== id)
         })
+        axios.delete(`${baseUrl}/${id}`)
     }
 
 }

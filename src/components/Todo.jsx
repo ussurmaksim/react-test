@@ -1,46 +1,40 @@
 import React from "react";
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillCloseCircle } from "react-icons/ai";
+import { useFormatDate } from './formatDateContext';
 
-function Todo({ todo, getId, url }) {
+
+function Todo({ todo, getId, url, deleteTask }) { // Принимаем formatDate как пропсу
     const navigate = useNavigate();
 
+
+    const { formatDate } = useFormatDate();
+
+
     const handleClick = () => {
-        const id = getId(todo); // Получаем ID здесь
-        navigate("/Test", {
-            state: { id: id, url: url, todo: todo } // Передаем ID и URL через state
+        const id = getId(todo);
+        navigate("/Task-page", {
+            state: { id: id, url: url} // Передаем formatDate
         });
     };
 
-    let formattedTime = '';
-
-    if (todo && todo.timeCreated) {
-        try {
-            const date = new Date(todo.timeCreated);
-            formattedTime = format(date, 'PPpp', { locale: ru });
-        } catch (error) {
-            console.error("Ошибка при форматировании даты:", error);
-            formattedTime = 'Неверная дата';
-        }
-    } else {
-        formattedTime = 'Нет данных';
-    }
-
     return (
-        <div className={"todo-block"} onClick={handleClick}>
-            <Link
-                to={{
-                    pathname: "/Test",
-                    state: { id: getId(todo), url: url, todo: todo } // Передаем данные через state
-                }}
-            >
-                <AiFillCloseCircle className=""/>
-                <h3 className={"todoText"}>{todo.taskName}</h3>
-                <p className={"description"}>{todo.taskText}</p>
-                <p className={"status"}>{formattedTime}</p>
-            </Link>
+        <div className={"todo-block"} >
+            <div className="todoButtons">
+                <AiFillCloseCircle className="deleteTaskBtn" onClick={() => deleteTask(getId(todo))} />
+            </div>
+            <div onClick={ handleClick }>
+                <Link
+                    to={{
+                        pathname: "/Task-page",
+                        state: { id: getId(todo), url: url}
+                    }}
+                >
+                    <h3 className={"todoText"}>{ todo.taskName }</h3>
+                    <p className={"description"}>{ todo.taskText }</p>
+                    <p className={"status"}>{formatDate(todo.timeCreated)}</p>
+                </Link>
+            </div>
         </div>
     );
 }

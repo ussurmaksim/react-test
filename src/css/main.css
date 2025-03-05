@@ -9,6 +9,7 @@ body {
     background-color: #525252;
     position: relative;
     height: 100vh;
+    color: #fff;
 }
 
 .todo-block {
@@ -18,6 +19,12 @@ body {
     padding: 25px;
     margin: 20px auto;
     background-color: #eee;
+    color: #000;
+    transition: all 0.2s ease;
+}
+
+.todo-block:hover {
+    background-color: #aaa;
 }
 
 .todo-block h3 {
@@ -48,7 +55,7 @@ form {
     width: 100%;
 }
 
-.formTasks .inputTask {
+.inputTask {
     width: 100%;
     margin: 10px 0;
     border: 1px #525252 solid;
@@ -103,4 +110,70 @@ form {
 a {
     color: inherit;
     text-decoration: none;
+}
+
+.todoButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.deleteTaskBtn {
+    float: right;
+    transform: scale(1.5);
+    color: #000;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.todoButtons .deleteTaskBtn:hover {
+    cursor: pointer;
+    transform: scale(1.4);
+}
+
+.task {
+    max-width: 400px;
+    margin: 30px auto 0;
+    background: #333;
+    padding: 20px;
+}
+
+.task-page .task-name {
+    margin: 10px 0;
+}
+
+.task-page .task-description, .task-page .task-time {
+    margin: 10px 0;
+}
+
+.button-back, .button-back button {
+    background-color: #221;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding: 20px;
+    color: #fff;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.editTaskBtn {
+    float: right;
+    transform: scale(1.5);
+    transition: all 0.2s ease-in-out;
+}
+
+.editTaskBtn:hover {
+    cursor: pointer;
+    transform: scale(1.4);
+}
+
+.task-time {
+    text-align: right;
+}
+
+.update-task-form {
+    max-width: 500px;
+    margin: 30px auto 0;
+    background: #333;
 }
