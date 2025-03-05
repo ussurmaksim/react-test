@@ -28,7 +28,7 @@ class AddTodo extends React.Component {
 
         try {
             // Отправляем POST-запрос на ваш API
-            const response = await axios.post(baseUrl, todoAdd); // Замените '/api/todos' на ваш URL API
+            const response = await axios.post(baseUrl + "/tasks", todoAdd); // Замените '/api/todos' на ваш URL API
 
             // Обрабатываем успешный ответ
             console.log("Задача успешно добавлена:", response.data);
@@ -66,15 +66,14 @@ class AddTodo extends React.Component {
                             placeholder="Название задачи"
                             value={this.state.taskName} // Используем controlled components
                             onChange={(e) => this.setState({ taskName: e.target.value })}
-                            required // Добавляем обязательность заполнения поля
+                            // required // Добавляем обязательность заполнения поля
                         />
-                        <input
-                            className="inputTask"
-                            type="text"
+                        <textarea
+                            className="TextareaTask"
                             placeholder="Описание задачи"
                             value={this.state.taskText} // Используем controlled components
                             onChange={(e) => this.setState({ taskText: e.target.value })}
-                            required // Добавляем обязательность заполнения поля
+                            // required // Добавляем обязательность заполнения поля
                         />
                     </div>
                     <div className="submitBtn__wrapper">

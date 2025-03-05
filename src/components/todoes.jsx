@@ -2,9 +2,10 @@ import React from "react";
 import Todo from "./Todo"
 import AddTodo from "./AddTodo";
 
-class Todos extends React.Component {
-    render() {
 
+class Todoes extends React.Component {
+
+    render() {
            return (
                <div className={"todos"}>
                    <div className={"todo-header"}>
@@ -15,11 +16,11 @@ class Todos extends React.Component {
                        {
                            (Array.isArray(this.props.todos) && this.props.todos.length > 0) ? (
                                this.props.todos.map((todo) => (
-                                   <Todo todo={todo} key={todo.id} getId ={this.getId}/>
+                                   <Todo todo={todo} key={todo.id} getId ={this.getId} url={this.props.url}/>
                                ))
                            ) : (
                                <div className={"todo-block"}>
-                                   <h3>Произошла ошибка либо задач нема</h3>
+                                   <h3>{this.props.todos.length > 0 ? "Произошла ошибка либо" : "Задач нет"}</h3>
                                </div>
                            )
                        }
@@ -31,10 +32,10 @@ class Todos extends React.Component {
 
        }
     getId (task) {
-        console.log(task.id)
+        return task.id;
     }
 }
 
 
 
-export default Todos;
+export default Todoes;
